@@ -45,7 +45,6 @@ const httpTrigger: AzureFunction = async function (
     if (interaction && interaction.type === InteractionType.APPLICATION_COMMAND) {
         const inputMessage = req.body.data.options[0].value
         const username = req.body.member.user.username
-        interaction.deferReply()
         const chatGPTResponse = await ask(inputMessage)
 
         context.res = {
@@ -57,7 +56,7 @@ const httpTrigger: AzureFunction = async function (
             body: JSON.stringify({
                 type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
                 data: {
-                    content: `To ${username}: ${chatGPTResponse}`,
+                    content: 'Please wait...',
                 },
             }),
         }
