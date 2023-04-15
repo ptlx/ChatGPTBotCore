@@ -45,7 +45,6 @@ const httpTrigger: AzureFunction = async function (
     if (interaction && interaction.type === InteractionType.APPLICATION_COMMAND) {
         const inputMessage = req.body.data.options[0].value
         const username = req.body.member.user.username
-        var test = 'a'
         context.res = {
             status: 200,
             method: "POST",
@@ -53,27 +52,26 @@ const httpTrigger: AzureFunction = async function (
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+                type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
                 data: {
-                    content: test,
+                    content: 'Please wait...',
                 },
             }),
         }
-        test = 'b'
-        // const chatGPTResponse = ask(inputMessage)
-        // context.res = {
-        //     status: 200,
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify({
-        //         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-        //         data: {
-        //             content: `${username}: ${chatGPTResponse}`,
-        //         },
-        //     }),
-        // }
+        const chatGPTResponse = ask(inputMessage)
+        context.res = {
+            status: 200,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                type: InteractionResponseType.DEFERRED_UPDATE_MESSAGE,
+                data: {
+                    content: `${username}: ${chatGPTResponse}`,
+                },
+            }),
+        }
     } else {
         context.res = {
             body: JSON.stringify({
@@ -81,7 +79,6 @@ const httpTrigger: AzureFunction = async function (
             }),
         }
     }
-    test = 'c'
 }
 
 export default httpTrigger
