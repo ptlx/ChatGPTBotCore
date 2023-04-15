@@ -52,35 +52,9 @@ const httpTrigger: AzureFunction = async function (
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+                type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
                 data: {
-                    content: 'a',
-                },
-            }),
-        }
-        context.res = {
-            status: 200,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-                data: {
-                    content: 'b',
-                },
-            }),
-        }
-        context.res = {
-            status: 200,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-                data: {
-                    content: 'c',
+                    content: 'Please wait...',
                 },
             }),
         }
@@ -97,8 +71,7 @@ const httpTrigger: AzureFunction = async function (
         //         },
         //     }),
         // }
-        const chatGPTResponse = ask(inputMessage)
-        console.log(chatGPTResponse)
+        // const chatGPTResponse = await ask(inputMessage)
         // context.res = {
         //     status: 200,
         //     method: "POST",
