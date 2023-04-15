@@ -82,35 +82,9 @@ const httpTrigger: AzureFunction = async function (
         context.done()
 
         const chatGPTResponse = await askToChatGPT(inputMessage)
-        console.log(chatGPTResponse)
-        sendMessageToDiscord(channelId, chatGPTResponse)
-
-        // context.res = {
-        //     status: 200,
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify({
-        //         type: InteractionResponseType.DEFERRED_UPDATE_MESSAGE,
-        //         data: {
-        //             content: `To ${username}: ${chatGPTResponse}`,
-        //         },
-        //     }),
-        // }
-        // context.res = {
-        //     status: 200,
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify({
-        //         type: InteractionResponseType.UPDATE_MESSAGE,
-        //         data: {
-        //             content: `To ${username}: ${chatGPTResponse}`,
-        //         },
-        //     }),
-        // }
+        const responseMessage = `To: ${username} ${chatGPTResponse}`
+        console.log(responseMessage)
+        sendMessageToDiscord(channelId, responseMessage)
     } else {
         context.res = {
             body: JSON.stringify({
