@@ -82,7 +82,7 @@ const httpTrigger: AzureFunction = async function (
         client.login(process.env.BOT_TOKEN)
 
         const chatGPTResponse = await askToChatGPT(inputMessage)
-        const responseMessage = `To: ${username}\n\`\`\`${chatGPTResponse}\`\`\``
+        const responseMessage = `<@${username}>\n\`\`\`${chatGPTResponse}\`\`\``
         console.log(responseMessage)
         sendMessageToDiscord(channelId, responseMessage)
         return
