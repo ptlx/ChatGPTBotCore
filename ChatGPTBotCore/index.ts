@@ -58,10 +58,11 @@ const httpTrigger: AzureFunction = async function (
         const inputMessage = req.body.data.options[0].value
         console.log(`input message: ${inputMessage}`)
 
-        const username = req.body.member.user.username
-        console.log(`user name: ${username}`)
+        const userName = req.body.member.user.username
+        console.log(`user name: ${userName}`)
 
-        console.log(`user: ${req.body.member.user}`)
+        const userId = req.body.member.user.id
+        console.log(`user id: ${userId}`)
 
         const channelId = req.body.channel_id
         console.log(`channel id: ${channelId}`)
@@ -84,7 +85,7 @@ const httpTrigger: AzureFunction = async function (
         client.login(process.env.BOT_TOKEN)
 
         const chatGPTResponse = await askToChatGPT(inputMessage)
-        const responseMessage = `<@${username}>\n\`\`\`${chatGPTResponse}\`\`\``
+        const responseMessage = `<@${userId}>\n\`\`\`${chatGPTResponse}\`\`\``
         console.log(responseMessage)
         sendMessageToDiscord(channelId, responseMessage)
         return
