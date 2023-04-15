@@ -44,7 +44,11 @@ const httpTrigger: AzureFunction = async function (
     const interaction = req.body
     if (interaction && interaction.type === InteractionType.APPLICATION_COMMAND) {
         const inputMessage = req.body.data.options[0].value
+        console.log(`input message: ${inputMessage}`)
+
         const username = req.body.member.user.username
+        console.log(`user name: ${username}`)
+
         context.res = {
             status: 200,
             method: "POST",
