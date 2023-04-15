@@ -64,6 +64,7 @@ const httpTrigger: AzureFunction = async function (
         }
         context.done()
         const chatGPTResponse = await ask(inputMessage)
+        console.log(chatGPTResponse)
         context.res = {
             status: 200,
             method: "POST",
