@@ -61,6 +61,8 @@ const httpTrigger: AzureFunction = async function (
         const username = req.body.member.user.username
         console.log(`user name: ${username}`)
 
+        console.log(`user: ${req.body.member.user}`)
+
         const channelId = req.body.channel_id
         console.log(`channel id: ${channelId}`)
 
