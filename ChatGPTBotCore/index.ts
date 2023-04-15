@@ -57,9 +57,6 @@ const httpTrigger: AzureFunction = async function (
             },
             body: JSON.stringify({
                 type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
-                data: {
-                    content: 'Please wait...',
-                },
             }),
         }
         context.done()
