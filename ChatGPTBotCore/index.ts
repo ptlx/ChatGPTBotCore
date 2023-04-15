@@ -19,8 +19,6 @@ const client = new Client({
     intents: ['Guilds', 'GuildMembers', 'GuildMessages']
 })
 
-client.login(process.env.BOT_TOKEN)
-
 const askToChatGPT = async (message: string, model = 'gpt-3.5-turbo-0301') => {
     const response = await openai.createChatCompletion({
         model: model,
@@ -80,6 +78,8 @@ const httpTrigger: AzureFunction = async function (
             }),
         }
         context.done()
+
+        client.login(process.env.BOT_TOKEN)
 
         const chatGPTResponse = await askToChatGPT(inputMessage)
         const responseMessage = `To: ${username}\n${chatGPTResponse}`
