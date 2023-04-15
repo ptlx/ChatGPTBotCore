@@ -97,7 +97,8 @@ const httpTrigger: AzureFunction = async function (
         //         },
         //     }),
         // }
-        // const chatGPTResponse = ask(inputMessage)
+        const chatGPTResponse = ask(inputMessage)
+        console.log(chatGPTResponse)
         // context.res = {
         //     status: 200,
         //     method: "POST",
