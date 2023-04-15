@@ -75,7 +75,7 @@ const httpTrigger: AzureFunction = async function (
             body: JSON.stringify({
                 type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
                 data: {
-                    content: 'Please wait...'
+                    content: `Your message: ${inputMessage}\nPlease wait...`
                 },
             }),
         }
