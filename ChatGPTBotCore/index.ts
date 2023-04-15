@@ -52,12 +52,51 @@ const httpTrigger: AzureFunction = async function (
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
+                type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
                 data: {
-                    content: 'Please wait...',
+                    content: 'a',
                 },
             }),
         }
+        context.res = {
+            status: 200,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+                data: {
+                    content: 'b',
+                },
+            }),
+        }
+        context.res = {
+            status: 200,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+                data: {
+                    content: 'c',
+                },
+            }),
+        }
+        // context.res = {
+        //     status: 200,
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify({
+        //         type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
+        //         data: {
+        //             content: 'Please wait...',
+        //         },
+        //     }),
+        // }
         // const chatGPTResponse = ask(inputMessage)
         // context.res = {
         //     status: 200,
@@ -72,19 +111,6 @@ const httpTrigger: AzureFunction = async function (
         //         },
         //     }),
         // }
-        context.res = {
-            status: 200,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
-                data: {
-                    content: 'a',
-                },
-            }),
-        }
     } else {
         context.res = {
             body: JSON.stringify({
@@ -92,19 +118,6 @@ const httpTrigger: AzureFunction = async function (
             }),
         }
     }
-        context.res = {
-            status: 200,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
-                data: {
-                    content: 'b',
-                },
-            }),
-        }
 }
 
 export default httpTrigger
