@@ -58,7 +58,20 @@ const httpTrigger: AzureFunction = async function (
                 },
             }),
         }
-        const chatGPTResponse = ask(inputMessage)
+        // const chatGPTResponse = ask(inputMessage)
+        // context.res = {
+        //     status: 200,
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify({
+        //         type: InteractionResponseType.DEFERRED_UPDATE_MESSAGE,
+        //         data: {
+        //             content: `${username}: ${chatGPTResponse}`,
+        //         },
+        //     }),
+        // }
         context.res = {
             status: 200,
             method: "POST",
@@ -66,9 +79,9 @@ const httpTrigger: AzureFunction = async function (
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                type: InteractionResponseType.DEFERRED_UPDATE_MESSAGE,
+                type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
                 data: {
-                    content: `${username}: ${chatGPTResponse}`,
+                    content: 'a',
                 },
             }),
         }
@@ -79,6 +92,19 @@ const httpTrigger: AzureFunction = async function (
             }),
         }
     }
+        context.res = {
+            status: 200,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
+                data: {
+                    content: 'b',
+                },
+            }),
+        }
 }
 
 export default httpTrigger
