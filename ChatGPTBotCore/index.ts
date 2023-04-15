@@ -5,6 +5,7 @@ import {
     verifyKey,
 } from "discord-interactions"
 import { Configuration, OpenAIApi } from "openai"
+import { Client } from 'discord.js'
 
 const CLIENT_PUBLIC_KEY = process.env.CLIENT_PUBLIC_KEY
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY
@@ -14,14 +15,27 @@ const configuration = new Configuration({
 })
 const openai = new OpenAIApi(configuration)
 
-const ask = async (content: string, model = 'gpt-3.5-turbo-0301') => {
+const client = new Client({
+    intents: ['Guilds', 'GuildMembers', 'GuildMessages']
+})
+
+client.login(process.env.BOT_TOKEN)
+
+const askToChatGPT = async (message: string, model = 'gpt-3.5-turbo-0301') => {
     const response = await openai.createChatCompletion({
         model: model,
-        messages: [{ role: "user", content: content }]
+        messages: [{ role: "user", content: message }]
     })
 
     const answer = response.data.choices[0].message?.content
     return answer
+}
+
+const sendMessageToDiscord = (channelId: string, message: string) => {
+    const channel = client.channels.cache.get(channelId)
+    if (channel?.isTextBased()) {
+        channel.send(message)
+    }
 }
 
 const httpTrigger: AzureFunction = async function (
@@ -49,6 +63,9 @@ const httpTrigger: AzureFunction = async function (
         const username = req.body.member.user.username
         console.log(`user name: ${username}`)
 
+        const channelId = req.body.channel_id
+        console.log(`channel id: ${channelId}`)
+
         context.res = {
             status: 200,
             method: "POST",
@@ -56,39 +73,44 @@ const httpTrigger: AzureFunction = async function (
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
+                type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+                data: {
+                    content: 'Please wait...'
+                },
             }),
         }
         context.done()
 
-        const chatGPTResponse = await ask(inputMessage)
+        const chatGPTResponse = await askToChatGPT(inputMessage)
         console.log(chatGPTResponse)
-        context.res = {
-            status: 200,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                type: InteractionResponseType.DEFERRED_UPDATE_MESSAGE,
-                data: {
-                    content: `To ${username}: ${chatGPTResponse}`,
-                },
-            }),
-        }
-        context.res = {
-            status: 200,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                type: InteractionResponseType.UPDATE_MESSAGE,
-                data: {
-                    content: `To ${username}: ${chatGPTResponse}`,
-                },
-            }),
-        }
+        sendMessageToDiscord(channelId, chatGPTResponse)
+
+        // context.res = {
+        //     status: 200,
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify({
+        //         type: InteractionResponseType.DEFERRED_UPDATE_MESSAGE,
+        //         data: {
+        //             content: `To ${username}: ${chatGPTResponse}`,
+        //         },
+        //     }),
+        // }
+        // context.res = {
+        //     status: 200,
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify({
+        //         type: InteractionResponseType.UPDATE_MESSAGE,
+        //         data: {
+        //             content: `To ${username}: ${chatGPTResponse}`,
+        //         },
+        //     }),
+        // }
     } else {
         context.res = {
             body: JSON.stringify({
