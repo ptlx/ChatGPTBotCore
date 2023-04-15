@@ -60,6 +60,7 @@ const httpTrigger: AzureFunction = async function (
             }),
         }
         context.done()
+
         const chatGPTResponse = await ask(inputMessage)
         console.log(chatGPTResponse)
         context.res = {
@@ -71,11 +72,23 @@ const httpTrigger: AzureFunction = async function (
             body: JSON.stringify({
                 type: InteractionResponseType.DEFERRED_UPDATE_MESSAGE,
                 data: {
-                    content: `${username}: ${chatGPTResponse}`,
+                    content: `To ${username}: ${chatGPTResponse}`,
                 },
             }),
         }
-        context.done()
+        context.res = {
+            status: 200,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                type: InteractionResponseType.UPDATE_MESSAGE,
+                data: {
+                    content: `To ${username}: ${chatGPTResponse}`,
+                },
+            }),
+        }
     } else {
         context.res = {
             body: JSON.stringify({
