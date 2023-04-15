@@ -62,33 +62,22 @@ const httpTrigger: AzureFunction = async function (
                 },
             }),
         }
-        // context.res = {
-        //     status: 200,
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify({
-        //         type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
-        //         data: {
-        //             content: 'Please wait...',
-        //         },
-        //     }),
-        // }
-        // const chatGPTResponse = await ask(inputMessage)
-        // context.res = {
-        //     status: 200,
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify({
-        //         type: InteractionResponseType.DEFERRED_UPDATE_MESSAGE,
-        //         data: {
-        //             content: `${username}: ${chatGPTResponse}`,
-        //         },
-        //     }),
-        // }
+        context.done()
+        const chatGPTResponse = await ask(inputMessage)
+        context.res = {
+            status: 200,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                type: InteractionResponseType.DEFERRED_UPDATE_MESSAGE,
+                data: {
+                    content: `${username}: ${chatGPTResponse}`,
+                },
+            }),
+        }
+        context.done()
     } else {
         context.res = {
             body: JSON.stringify({
