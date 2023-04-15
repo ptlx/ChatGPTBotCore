@@ -81,7 +81,7 @@ const httpTrigger: AzureFunction = async function (
             }),
         }
     }
-    test = 'b'
+    test = 'c'
 }
 
 export default httpTrigger
