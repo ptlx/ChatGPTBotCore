@@ -85,6 +85,7 @@ const httpTrigger: AzureFunction = async function (
         const responseMessage = `To: ${username} ${chatGPTResponse}`
         console.log(responseMessage)
         sendMessageToDiscord(channelId, responseMessage)
+        return
     } else {
         context.res = {
             body: JSON.stringify({
