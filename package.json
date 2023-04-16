@@ -1,26 +1,28 @@
 {
-  "name": "chatgptbotcore",
-  "version": "1.0.0",
-  "description": "",
-  "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w",
-    "prestart": "npm run build",
-    "start": "func start",
-    "test": "echo \"No tests yet...\""
-  },
-  "dependencies": {
-    "discord-interactions": "^3.3.0",
-    "discord.js": "^14.9.0",
-    "express": "^4.18.2",
-    "openai": "^3.2.1"
-  },
-  "devDependencies": {
-    "@azure/functions": "^3.0.0",
-    "@types/node": "^18.15.11",
-    "typescript": "^4.0.0"
-  },
-  "main": "index.js",
-  "author": "wurzeit <hiccap.master.jedi@gmail.com>",
-  "license": "MIT"
+    "name": "chatgptbotcore",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+        "build": "tsc",
+        "watch": "tsc -w",
+        "prestart": "npm run build",
+        "start": "func start",
+        "test": "echo \"No tests yet...\"",
+        "register": "tsc src/register.ts && node src/register.js"
+    },
+    "dependencies": {
+        "discord-interactions": "^3.3.0",
+        "discord.js": "^14.9.0",
+        "dotenv": "^16.0.3",
+        "express": "^4.18.2",
+        "openai": "^3.2.1"
+    },
+    "devDependencies": {
+        "@azure/functions": "^3.0.0",
+        "@types/node": "^18.15.11",
+        "typescript": "^4.0.0"
+    },
+    "main": "index.js",
+    "author": "wurzeit <hiccap.master.jedi@gmail.com>",
+    "license": "MIT"
 }
