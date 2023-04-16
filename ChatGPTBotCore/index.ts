@@ -19,7 +19,9 @@ const client = new Client({
     intents: ['Guilds', 'GuildMembers', 'GuildMessages']
 })
 
-const askToChatGPT = async (message: string, model = 'gpt-3.5-turbo-0301') => {
+const modelName = 'gpt-3.5-turbo-0301'
+
+const askToChatGPT = async (message: string, model = modelName) => {
     const response = await openai.createChatCompletion({
         model: model,
         messages: [{ role: "user", content: message }]
