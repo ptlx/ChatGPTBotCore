@@ -19,7 +19,7 @@ const client = new Client({
     intents: ['Guilds', 'GuildMembers', 'GuildMessages']
 })
 
-const modelName = 'gpt-4'
+const modelName = 'gpt-3.5-turbo-0301'
 
 const askToChatGPT = async (message: string, model = modelName) => {
     const response = await openai.createChatCompletion({
